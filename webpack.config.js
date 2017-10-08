@@ -82,7 +82,7 @@ module.exports = {
             chunksSortMode: function(a, b) {
                 return a.id < b.id ? 1 : -1
             },
-            template: __dirname + '/index.html',
+            template: __dirname + '/src/assets/index.ejs',
         }),
 
         // TODO able in production
