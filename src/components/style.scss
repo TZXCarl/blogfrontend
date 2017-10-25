@@ -1,0 +1,31 @@
+.loginBg {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: #F5F6FA;
+  display: flex;
+}
+
+.loginForm {
+  margin: auto;
+  background-color: #FFFFFF;
+  padding: 60px 140px;
+  border: 1px solid #DFE2E5;
+  border-radius: 4px;
+}
+
+.loginHeader {
+  padding: 0 40px 20px;
+}
+
+
+.homeContainer {
+  flex: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #FFF;
+}
+
+

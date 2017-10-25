@@ -8,56 +8,78 @@ import {
 import { Layout, Spin, Menu, Icon } from 'antd';
 const { SubMenu } = Menu;
 const { Sider, Content } = Layout;
-import qs from 'qs';
+
+import UserStore from "./stores/userStore"
 
 import Header from './layouts/header'
-// import Footer from './layouts/footer'
 import Markdown from "./components/markdown"
+import Login from "./components/login"
 
-import style from './style.scss'
+
 
 class Routes extends Component {
+    static contextTypes = {
+        router: PropTypes.shape({
+            history: PropTypes.object.isRequired,
+            route: PropTypes.object.isRequired,
+            staticContext: PropTypes.object
+        })
+    }
+
+    componentWillMount() {
+        this.subscription = UserStore.addListener(this.routeLogin)
+        this.routeLogin();
+    }
+
+    componentWillUnmount() {
+        this.subscription = null;
+        this.subscription.remove();
+    }
+
+    routeLogin = () => {
+        const {history, route: {location}} = this.context.router
+        console.log(UserStore.currentUser)
+        if (!UserStore.currentUser && location.pathname !== '/login') {
+            const redirect = location.pathname + location.search
+            history.push(`/login?redirect=+${encodeURIComponent(redirect)}`)
+        }
+    }
+
 
   render() {
-    return (
-      <Layout style={{"height": "100vh"}}>
-        <Header />
-          <layout style={{"display": "flex", "height": "100%", "background": "#ffffff"}}>
-              <Sider>
-                  <Menu
-                      mode="inline"
-                      defaultSelectedKeys={['1']}
-                      defaultOpenKeys={['sub1']}
-                      style={{ height: '100%', borderRight: 0}}
-                  >
-                      <SubMenu key="sub1" title={<span><Icon type="user" />subnav 1</span>}>
-                          <Menu.Item key="1">option1</Menu.Item>
-                          <Menu.Item key="2">option2</Menu.Item>
-                          <Menu.Item key="3">option3</Menu.Item>
-                          <Menu.Item key="4">option4</Menu.Item>
-                      </SubMenu>
-                      <SubMenu key="sub2" title={<span><Icon type="laptop" />subnav 2</span>}>
-                          <Menu.Item key="5">option5</Menu.Item>
-                          <Menu.Item key="6">option6</Menu.Item>
-                          <Menu.Item key="7">option7</Menu.Item>
-                          <Menu.Item key="8">option8</Menu.Item>
-                      </SubMenu>
-                      <SubMenu key="sub3" title={<span><Icon type="notification" />subnav 3</span>}>
-                          <Menu.Item key="9">option9</Menu.Item>
-                          <Menu.Item key="10">option10</Menu.Item>
-                          <Menu.Item key="11">option11</Menu.Item>
-                          <Menu.Item key="12">option12</Menu.Item>
-                      </SubMenu>
-                  </Menu>
-              </Sider>
-              <Content style={{"padding": "20px"}}>
-                  <Switch>
-                      <Route exact path="/" component={Markdown} />
-                  </Switch>
-              </Content>
-          </layout>
-        {/*<Footer/>*/}
-      </Layout>
+      return (
+          <Switch>
+              <Route path="/login" component={Login}/>
+              <Route>
+                  <Layout style={{"height": "100vh"}}>
+                      <Header />
+                      <layout style={{"display": "flex", "height": "100%", "background": "#ffffff"}}>
+                          <Sider>
+                              <Menu
+                                  mode="inline"
+                                  defaultSelectedKeys={['1']}
+                                  defaultOpenKeys={['sub1']}
+                                  style={{ height: '100%', borderRight: 0}}
+                              >
+                                  <SubMenu key="sub1" title={<span><Icon type="user" />subnav 1</span>}>
+                                      <Menu.Item key="1">option1</Menu.Item>
+                                      <Menu.Item key="2">option2</Menu.Item>
+                                      <Menu.Item key="3">option3</Menu.Item>
+                                      <Menu.Item key="4">option4</Menu.Item>
+                                  </SubMenu>
+                              </Menu>
+                          </Sider>
+                          <Content style={{"padding": "4px", "borderLeft": '1px solid #cfcfcf'}}>
+                              <Switch>
+                                  <Route exact path="/" component={Markdown} />
+                                  {/*<Route exact path="/login" component={Login} />*/}
+                                  {/*<Route path="/orders" component={OrderContainer} />*/}
+                              </Switch>
+                          </Content>
+                      </layout>
+                  </Layout>
+              </Route>
+          </Switch>
     )
   }
 }

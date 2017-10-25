@@ -20,3 +20,12 @@
   border: 1px solid;
   border-radius: 3px;
 }
+
+.title {
+  & > input {
+    width: 100%;
+    font-size: 14px;
+    border:none;
+    outline: none;
+  }
+}
