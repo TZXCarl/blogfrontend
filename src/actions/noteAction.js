@@ -7,7 +7,9 @@ export const getNote = (data) => {
         type: Constants.GET_NOTE,
         fetchStatus: Constants.FETCH_SENDING
     })
+
     Http.getNote(data).then((res) => {
+        console.log(res)
         AppDispatcher.dispatch({
             type: Constants.GET_NOTE,
             fetchStatus: Constants.FETCH_SUCCESS,

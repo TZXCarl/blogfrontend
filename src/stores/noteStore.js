@@ -17,11 +17,16 @@ class NoteStore extends Store {
 
     __onDispatch(payload) {
         const {type, fetchStatus} = payload
+        this.lastAction = {
+            type: type,
+            status: fetchStatus
+        }
         switch (type) {
             case Constants.GET_NOTE:
                 this.fetching[Constants.GET_NOTE] = fetchStatus === Constants.FETCH_SENDING
                 if (fetchStatus === Constants.FETCH_SUCCESS) {
-                    const {data} = payload;
+                    const {data} = JSON.parse(payload.data);
+                    debugger
                     this.currentNote = data;
                     this.noteIds[data.id] = data;
                 }
@@ -33,6 +38,10 @@ class NoteStore extends Store {
 
     getCurrentNote = () => {
         return this.currentNote
+    }
+
+    getLastAction = () => {
+        return this.lastAction
     }
 
 }

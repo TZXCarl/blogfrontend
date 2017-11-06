@@ -8,7 +8,6 @@ export const login = (data) => {
         fetchStatus: Constants.FETCH_SENDING
     })
     Http.login(data).then((res) => {
-        console.log(res)
         AppDispatcher.dispatch({
             type: Constants.LOGIN,
             fetchStatus: Constants.FETCH_SUCCESS,

@@ -5,11 +5,13 @@ import style from "./style.scss"
 
 import Http from "service/http"
 import {getNote} from '../../actions/noteAction'
+import NoteStore from '../../stores/noteStore'
+import Constants from "../../service/constant"
 
-import ReactMarkdown from 'react-markdown'
+// import ReactMarkdown from 'react-markdown'
 
+const TIME_OUT = 400
 class Markdown extends Component {
-
     constructor(props) {
         super(props)
     }
@@ -20,26 +22,51 @@ class Markdown extends Component {
     }
 
     componentWillUnmount() {
+        NoteStore.addListener(this.onChange)
         this.mditor = null;
     }
 
     componentDidMount() {
-        // this.mditor =  Mditor.fromTextarea(document.getElementById('editor'));
-        // this.mditor.on('change', this.mditorOnChange.bind(this))
-        // getNote('59eaf4ac83293d1799b1a25d')
-    }
-
-    mditorOnChange = () => {
-        this.setState({
-            content: this.mditor.value
+        this.mditor =  Mditor.fromTextarea(document.getElementById('editor'));
+        this.mditor.on('change', this.mditorOnChange.bind(this))
+        getNote({
+            'userId': '59e0c5aa785548d795cb5c56',
+            'noteId': '59eaf4ac83293d1799b1a25d'
         })
     }
 
-    onChange = () => {
+    // 时间间隔为TIME_OUT没有变化后再更新
+    mditorOnChange = () => {
+        this.timeout && clearTimeout(this.timeout)
+        this.timeout = setTimeout(() => {
+            this.setState({
+                content: this.mditor.value
+            }, TIME_OUT)
+        })
 
     }
 
+    onChange = () => {
+        debugger
+        const lastAction = NoteStore.getLastAction()
+        if (lastAction.status !== Constants.FETCH_SUCCESS) return
+        debugger
+        switch (lastAction.type) {
+            case Constants.GET_NOTE:
+                const note = NoteStore.getCurrentNote()
+
+                this.setState({
+                    title: note.title,
+                    content: note.content
+
+                })
+            break;
+
+        }
+    }
+
     handleGetNote = () => {
+
 
     }
 
@@ -53,23 +80,23 @@ class Markdown extends Component {
         })
     }
 
+    handleTitleBlur = (e) => {
+        this.setState({
+            title: e.target.value
+        })
+    }
+
     render() {
         const {intl: {formatMessage}} = this.props;
         const {title, content} = this.state;
-        let input = `#### 行程时间
-
-"根据行程的活动时长对产品进行一日游和多日游的分类。<br>
--一日游：行程持续时间在一天内的游玩类型<br>
--多日游：行程持续时间在两天及两天以上的游玩类型"<br>`
         return (
             <div className={style.editor}>
-                {/*<div className={style.title}>*/}
-                    {/*<input placeholder={formatMessage({id: __('UnTitlled')})} defaultValue={title}/>*/}
-                {/*</div>*/}
-                {/*<div>*/}
-                    {/*<textarea name="editor" id="editor"></textarea>*/}
-                {/*</div>*/}
-                <ReactMarkdown sourcePos={true}  source={input} />
+                <div className="title">
+                    <input placeholder={formatMessage({id: __('UnTitlled')})} defaultValue={title} onBlur={this.handleTitleBlur}/>
+                </div>
+                <div className="markdown">
+                    <textarea name="editor" id="editor"></textarea>
+                </div>
             </div>
         )
     }

@@ -37,6 +37,13 @@ class Api {
     createNote = (data) => {
         return xhr(Constants.POST, '/createNote', data)
     }
+
+    getNote = (params) => {
+        let path = '/getNote?';
+        const keys = Object.keys(params)
+        path += keys.map( k => `${k}=${params[k]}`).join('&')
+        return xhr(Constants.GET, path, {})
+    }
 }
 
 export default  new Api()

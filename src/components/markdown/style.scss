@@ -5,6 +5,25 @@
 .editor {
   height: 100%;
   //display: flex;
+  & :global {
+    .title {
+      & > input {
+        width: 100%;
+        font-size: 14px;
+        border:none;
+        outline: none;
+      }
+    }
+    .markdown {
+      width: 100%;
+      height: calc(100vh - 100px);
+      & :global {
+        .mditor {
+          height: 100% !important;
+        }
+      }
+    }
+  }
 }
 
 .leftContent{
@@ -19,13 +38,4 @@
   height: 100%;
   border: 1px solid;
   border-radius: 3px;
-}
-
-.title {
-  & > input {
-    width: 100%;
-    font-size: 14px;
-    border:none;
-    outline: none;
-  }
 }

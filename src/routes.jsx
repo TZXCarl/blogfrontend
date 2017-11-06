@@ -14,7 +14,8 @@ import UserStore from "./stores/userStore"
 import Header from './layouts/header'
 import Markdown from "./components/markdown"
 import Login from "./components/login"
-
+import Calendar from "./components/calendar"
+import Test from './components/test'
 
 
 class Routes extends Component {
@@ -38,7 +39,6 @@ class Routes extends Component {
 
     routeLogin = () => {
         const {history, route: {location}} = this.context.router
-        console.log(UserStore.currentUser)
         if (!UserStore.currentUser && location.pathname !== '/login') {
             const redirect = location.pathname + location.search
             history.push(`/login?redirect=+${encodeURIComponent(redirect)}`)
@@ -72,8 +72,8 @@ class Routes extends Component {
                           <Content style={{"padding": "4px", "borderLeft": '1px solid #cfcfcf'}}>
                               <Switch>
                                   <Route exact path="/" component={Markdown} />
-                                  {/*<Route exact path="/login" component={Login} />*/}
-                                  {/*<Route path="/orders" component={OrderContainer} />*/}
+                                  <Route exact path="/calendar" component={Calendar} />
+                                  <Route path="/test" component={Test} />
                               </Switch>
                           </Content>
                       </layout>
