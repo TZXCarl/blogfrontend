@@ -16,6 +16,7 @@ import Markdown from "./components/markdown"
 import Login from "./components/login"
 import Calendar from "./components/calendar"
 import Test from './components/test'
+import Nav from './layouts/nav'
 
 
 class Routes extends Component {
@@ -55,19 +56,7 @@ class Routes extends Component {
                       <Header />
                       <layout style={{"display": "flex", "height": "100%", "background": "#ffffff"}}>
                           <Sider>
-                              <Menu
-                                  mode="inline"
-                                  defaultSelectedKeys={['1']}
-                                  defaultOpenKeys={['sub1']}
-                                  style={{ height: '100%', borderRight: 0}}
-                              >
-                                  <SubMenu key="sub1" title={<span><Icon type="user" />subnav 1</span>}>
-                                      <Menu.Item key="1">option1</Menu.Item>
-                                      <Menu.Item key="2">option2</Menu.Item>
-                                      <Menu.Item key="3">option3</Menu.Item>
-                                      <Menu.Item key="4">option4</Menu.Item>
-                                  </SubMenu>
-                              </Menu>
+                              <Nav/>
                           </Sider>
                           <Content style={{"padding": "4px", "borderLeft": '1px solid #cfcfcf'}}>
                               <Switch>

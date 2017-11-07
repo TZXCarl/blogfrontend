@@ -26,7 +26,6 @@ class NoteStore extends Store {
                 this.fetching[Constants.GET_NOTE] = fetchStatus === Constants.FETCH_SENDING
                 if (fetchStatus === Constants.FETCH_SUCCESS) {
                     const {data} = JSON.parse(payload.data);
-                    debugger
                     this.currentNote = data;
                     this.noteIds[data.id] = data;
                 }

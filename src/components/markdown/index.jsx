@@ -47,10 +47,8 @@ class Markdown extends Component {
     }
 
     onChange = () => {
-        debugger
         const lastAction = NoteStore.getLastAction()
         if (lastAction.status !== Constants.FETCH_SUCCESS) return
-        debugger
         switch (lastAction.type) {
             case Constants.GET_NOTE:
                 const note = NoteStore.getCurrentNote()

@@ -22,11 +22,12 @@ class Test extends Component {
   render() {
     return(
       <div>
-        <Calender
-            dateCellRender={this.handleDateCellRender}
-            onSelect={this.handleSelect}
-            disabledDate={this.handleDisabledDate}
-        />
+        {/*<Calender*/}
+            {/*dateCellRender={this.handleDateCellRender}*/}
+            {/*onSelect={this.handleSelect}*/}
+            {/*disabledDate={this.handleDisabledDate}*/}
+        {/*/>*/}
+        <input style={{"outlineOffset": '4px'}}/>
       </div>
     )
   }
