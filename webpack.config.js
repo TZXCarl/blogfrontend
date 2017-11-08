@@ -10,8 +10,8 @@ module.exports = {
         host: "0.0.0.0",
         hot: true,
         port: 3010,
-        contentBase: __dirname + '/dist',
-        historyApiFallback:true
+        contentBase: __dirname + '/dist', //本地服务加载的目录
+        historyApiFallback:true, //为true时访问不存在的页面都会被重定向到／，也就是index.html文件
     },
     entry: {
         po: [
@@ -28,7 +28,7 @@ module.exports = {
     module: {
         rules: [
             // { test: require.resolve("lodash"), loader: "script-loader" },
-            { test: require.resolve("moment"), loader: "expose-loader?moment" },
+            { test: require.resolve("moment"), loader: "expose-loader?moment" }, //将moment暴露到全局export上下文，可通过window.moment访问
 
             // disable i18n warning
             { test: /node_modules\/react-intl/, loader: 'imports-loader?process=>{env: {NODE_ENV: "production"}}' },
@@ -47,7 +47,7 @@ module.exports = {
                     /src\/assets/,
                 ],
                 loader: "babel-loader",
-                query: {
+                query: { //为loaders提供额外的选项
                     presets: ["latest", "react","stage-0"],
                     plugins:[
                         ["import", { libraryName: "antd", style: "css" }],
@@ -72,33 +72,44 @@ module.exports = {
                 use: scssRules({ global: true }),
             }
         ],
-        noParse: [
+        noParse: [//如果一个模块没有其他新的依赖，可以配置在这里
             require.resolve("lodash"),
             // require.resolve("moment")
         ]
     },
     plugins: [
-        new HtmlWebpackPlugin({
+        // new webpack.optimize.CommonsChunkPlugin({  //提取公共部分，避免重复打包
+        //     name: 'vendor',
+        //     filename:'vendor-[hash].min.js'
+        // }),
+
+        new HtmlWebpackPlugin({    //将生成的js、css文件引入到index.html文件中。
             chunksSortMode: function(a, b) {
                 return a.id < b.id ? 1 : -1
             },
+            minify: {    //压缩
+                removeAttributeQuotes: true
+            },
+            hash: true,   //本次webpack打包对应的hash
+            chunks: ['app', 'po'],  //指定引入哦特殊文件，默认引入全部入口文件
+            excludeChunks: [''],   //与chunks相反，规定要移除的文件
             template: __dirname + '/src/assets/index.ejs',
         }),
 
         // TODO able in production
-        new ExtractTextPlugin({
+        new ExtractTextPlugin({  //将所有入口文件中*.css引入到独立的css文件中
             filename: 'style.css',
             allChunks: true,
         }),
-        new webpack.DefinePlugin({
+        new webpack.DefinePlugin({ //允许在编译时创建一个全局变量
             __ENV__: JSON.stringify(process.env.APP_ENV),
             __: function(k) { return k; },
         }),
         new webpack.HotModuleReplacementPlugin({}), // TODO disable in production
     ],
     resolve: {
-        modules: ['src', 'node_modules'],
-        extensions: ['.js', '.jsx', '.scss'],
+        modules: ['src', 'node_modules'], //告诉webpack解析时应该搜索的模块
+        extensions: ['.js', '.jsx', '.scss'], //自动解析确定的扩展
     }
 };
 
