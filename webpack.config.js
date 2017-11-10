@@ -18,7 +18,8 @@ module.exports = {
             './src/assets/i18ns/zh_CN.po',
             './src/assets/i18ns/en_US.po',
         ],
-        app: __dirname + "/src/app.jsx",
+        // app: __dirname + "/src/app.jsx",
+        app: __dirname + "/src/loaders/index.js",
     },
     output: {
         path: __dirname + '/dist/',
@@ -70,6 +71,13 @@ module.exports = {
             {
                 test: /\/src\/assets\/stylesheets\//,
                 use: scssRules({ global: true }),
+            },
+
+
+            //todo 自定义loaders配置
+            {
+                test: /\.tpl\.html/,
+                use: 'html-template-loader',
             }
         ],
         noParse: [//如果一个模块没有其他新的依赖，可以配置在这里
