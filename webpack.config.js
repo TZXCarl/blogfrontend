@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var HelloWorldPlugin = require('hello-world');
 
 module.exports = {
     devtool: process.env.APP_ENV === 'production' ? "eval" : 'cheap-module-eval-source-map',
@@ -114,6 +115,7 @@ module.exports = {
             __: function(k) { return k; },
         }),
         new webpack.HotModuleReplacementPlugin({}), // TODO disable in production
+        new HelloWorldPlugin({options: true}),
     ],
     resolve: {
         modules: ['src', 'node_modules'], //告诉webpack解析时应该搜索的模块
