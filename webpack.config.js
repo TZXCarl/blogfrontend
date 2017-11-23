@@ -19,8 +19,8 @@ module.exports = {
             './src/assets/i18ns/zh_CN.po',
             './src/assets/i18ns/en_US.po',
         ],
-        // app: __dirname + "/src/app.jsx",
-        app: __dirname + "/src/loaders/index.js",
+        app: __dirname + "/src/app.jsx",
+        // app: __dirname + "/src/loaders/index.js",
     },
     output: {
         path: __dirname + '/dist/',
@@ -44,16 +44,35 @@ module.exports = {
                 test: /\.jsx$|\.js$/,
                 include: /src/,
                 exclude: [
-                    /axios/,
+                    /axios/,    //TODO: 要了解
                     /node_modules/,
                     /src\/assets/,
                 ],
-                loader: "babel-loader",
+                loader: "babel-loader",  // 这个包允许babel和webpack转换javascript文件
+                //babel-loader 转换很慢， 尽可能排除不需要的源文件，babel-loader使用非常小的helper来实现常用功能，这将被加到每个需要的文件中。
+                // 可以将babel runtime作为一个单独的模块，以避免重复。
+
+
+                /**
+                 * babel-fill使用场景：
+                 * babel只转换新的语法不转换新的api，例如：　Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise等全局变量，
+                 * 以及一些定义在全局变量上的方法（例如：Object.assign()）都不会被编译，如果要使用这些新的变量和方法就必须使用babel-polyfill,
+                 *
+                 * babel-runtime使用场景：
+                 * babel转化后的代码要实现与源代码相同的功能，就必须借助一些帮助函数，这可能使得帮组函数重复出现在一些模块中，导致编译后的代码提及变大，
+                 * babel提供了babel-runtime供编译模块复用工具函数。
+                 *
+                 * 除此之外，babel还未源代码的飞实例方法和babel-runtime/helps下的工具函数自动引入了polyfill。
+                 *
+                 * 思考： 为什么babel-runtime适合javascript库和工具包的实现：
+                 * 1、避免babel编译的工具函数出现在每隔函数模块中，减小库和工具包的体积；
+                 * 2、babel-runtime会引入polyfill。
+                 */
                 query: { //为loaders提供额外的选项
-                    presets: ["latest", "react","stage-0"],
+                    presets: ["latest", "react","stage-0"], //presets设置转码规则
                     plugins:[
                         ["import", { libraryName: "antd", style: "css" }],
-                        ["transform-runtime"],
+                        ["transform-runtime"], // babel-plugin-transform-runtime包含一个polyfill,
                     ],
                 },
             },
@@ -116,6 +135,7 @@ module.exports = {
         }),
         new webpack.HotModuleReplacementPlugin({}), // TODO disable in production
         new HelloWorldPlugin({options: true}),
+        //new webpack.optimize.UglifyJsPlugin() //只在生产阶段使用，指定sourceMap为true时会使编译速度变慢
     ],
     resolve: {
         modules: ['src', 'node_modules'], //告诉webpack解析时应该搜索的模块
