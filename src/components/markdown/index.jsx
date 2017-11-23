@@ -7,8 +7,9 @@ import Http from "service/http"
 import {getNote} from '../../actions/noteAction'
 import NoteStore from '../../stores/noteStore'
 import Constants from "../../service/constant"
-
 // import ReactMarkdown from 'react-markdown'
+
+import Marked from 'marked'
 
 const TIME_OUT = 400
 class Markdown extends Component {
@@ -22,17 +23,12 @@ class Markdown extends Component {
     }
 
     componentWillUnmount() {
-        NoteStore.addListener(this.onChange)
-        this.mditor = null;
+        // NoteStore.addListener(this.onChange)
+        // this.mditor = null;
     }
 
     componentDidMount() {
-        this.mditor =  Mditor.fromTextarea(document.getElementById('editor'));
-        this.mditor.on('change', this.mditorOnChange.bind(this))
-        getNote({
-            'userId': '59e0c5aa785548d795cb5c56',
-            'noteId': '59eaf4ac83293d1799b1a25d'
-        })
+
     }
 
     // 时间间隔为TIME_OUT没有变化后再更新
@@ -87,14 +83,37 @@ class Markdown extends Component {
     render() {
         const {intl: {formatMessage}} = this.props;
         const {title, content} = this.state;
+        const input = [
+            '# Live demo\n\nChanges are automatically rendered as you type.\n\n* Follows the ',
+            '[CommonMark](http://commonmark.org/) spec\n* Renders actual, "native" React DOM ',
+            'elements\n* Allows you to escape or skip HTML (try toggling the checkboxes above)',
+            '\n* If you escape or skip the HTML, no `dangerouslySetInnerHTML` is used! Yay!\n',
+            '\n## HTML block below\n\n<blockquote>\n    This blockquote will change based ',
+            'on the HTML settings above.\n</blockquote>\n\n## How about some code?\n',
+            '```js\nvar React = require(\'react\');\nvar Markdown = require(\'react-markdown\');',
+            '\n\nReact.render(\n    <Markdown source="# Your markdown here" />,\n    document.',
+            'getElementById(\'content\')\n);\n```\n\nPretty neat, eh?\n\n', '## More info?\n\n',
+            'Read usage information and more on [GitHub](//github.com/rexxars/react-markdown)\n\n',
+            '---------------\n\n',
+            'A component by [VaffelNinja](http://vaffel.ninja) / Espen Hovlandsdal'
+        ].join('');
+
+        const options = {
+            escapeHtml: false,
+            skipHtml: false,
+        }
         return (
             <div className={style.editor}>
-                <div className="title">
-                    <input placeholder={formatMessage({id: __('UnTitlled')})} defaultValue={title} onBlur={this.handleTitleBlur}/>
-                </div>
-                <div className="markdown">
-                    <textarea name="editor" id="editor"></textarea>
-                </div>
+                {/*<div className="title">*/}
+                    {/*<input placeholder={formatMessage({id: __('UnTitlled')})} defaultValue={title} onBlur={this.handleTitleBlur}/>*/}
+                {/*</div>*/}
+                {/*<div className="markdown">*/}
+                    {/*<textarea name="editor" id="editor"></textarea>*/}
+                {/*</div>*/}
+                {/*<ReactMarkdown className="result" source={input} {...options}  renderers={Object.assign({}, ReactMarkdown.renderers,)}/>*/}
+
+                <iframe width="100%" height="100%" srcDoc={Marked(input)}>
+                </iframe>
             </div>
         )
     }

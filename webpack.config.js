@@ -2,7 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var HelloWorldPlugin = require('hello-world');
+// var HelloWorldPlugin = require('hello-world');
 
 module.exports = {
     devtool: process.env.APP_ENV === 'production' ? "eval" : 'cheap-module-eval-source-map',
@@ -19,8 +19,8 @@ module.exports = {
             './src/assets/i18ns/zh_CN.po',
             './src/assets/i18ns/en_US.po',
         ],
-        // app: __dirname + "/src/app.jsx",
-        app: __dirname + "/src/loaders/index.js",
+        app: __dirname + "/src/app.jsx",
+        // app: __dirname + "/src/loaders/index.js",
     },
     output: {
         path: __dirname + '/dist/',
@@ -76,10 +76,10 @@ module.exports = {
 
 
             //todo 自定义loaders配置
-            {
-                test: /\.tpl\.html/,
-                use: 'html-template-loader',
-            }
+            // {
+            //     test: /\.tpl\.html/,
+            //     use: 'html-template-loader',
+            // }
         ],
         noParse: [//如果一个模块没有其他新的依赖，可以配置在这里
             require.resolve("lodash"),
@@ -96,12 +96,12 @@ module.exports = {
             chunksSortMode: function(a, b) {
                 return a.id < b.id ? 1 : -1
             },
-            minify: {    //压缩
-                removeAttributeQuotes: true
-            },
-            hash: true,   //本次webpack打包对应的hash
-            chunks: ['app', 'po'],  //指定引入哦特殊文件，默认引入全部入口文件
-            excludeChunks: [''],   //与chunks相反，规定要移除的文件
+            // minify: {    //压缩
+            //     removeAttributeQuotes: true
+            // },
+            // hash: true,   //本次webpack打包对应的hash
+            // chunks: ['app', 'po'],  //指定引入哦特殊文件，默认引入全部入口文件
+            // excludeChunks: [''],   //与chunks相反，规定要移除的文件
             template: __dirname + '/src/assets/index.ejs',
         }),
 
@@ -115,7 +115,7 @@ module.exports = {
             __: function(k) { return k; },
         }),
         new webpack.HotModuleReplacementPlugin({}), // TODO disable in production
-        new HelloWorldPlugin({options: true}),
+        // new HelloWorldPlugin({options: true}),
     ],
     resolve: {
         modules: ['src', 'node_modules'], //告诉webpack解析时应该搜索的模块

@@ -75,7 +75,8 @@ const render = Component => {
             {/* <Modals /> */}
           </div>
         </IntlProvider>
-      </LocaleProvider>, document.getElementById('app')
+      </LocaleProvider>,
+      document.getElementById('app')
   );
 }
 
