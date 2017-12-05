@@ -52,6 +52,11 @@ class Nav extends Component {
                 自定义loader编写示例
               </NavLink>
             </Menu.Item>
+            <Menu.Item key="5">
+              <NavLink to="/setting">
+                设置
+              </NavLink>
+            </Menu.Item>
           </SubMenu>
         </Menu>
     )

@@ -44,6 +44,14 @@ class Api {
         path += keys.map( k => `${k}=${params[k]}`).join('&')
         return xhr(Constants.GET, path, {})
     }
+
+    fetchUsers = (params) => {
+        console.log(params)
+        let path = '/users';
+        const keys = Object.keys(params)
+        path += keys.map( k => `${k}=${params[k]}`).join('&')
+        return xhr(Constants.GET, path, {})
+    }
 }
 
 export default  new Api()

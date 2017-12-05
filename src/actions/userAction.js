@@ -15,3 +15,17 @@ export const login = (data) => {
         })
     })
 }
+
+export const getUsers = (data = {}) => {
+    AppDispatcher.dispatch({
+        type: Constants.FETCH_USERS,
+        fetchStatus: Constants.FETCH_SENDING
+    })
+    Http.fetchUsers(data).then((res) => {
+        AppDispatcher.dispatch({
+            type: Constants.FETCH_USERS,
+            fetchStatus: Constants.FETCH_SUCCESS,
+            data: res
+        })
+    })
+}

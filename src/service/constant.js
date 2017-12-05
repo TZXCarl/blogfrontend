@@ -13,6 +13,9 @@ const Constants = {
     LOGIN: Symbol('login'),
     LOGIN_OUT:Symbol('loginout'),
 
+    //users
+    FETCH_USERS: Symbol('fetchUsers'),
+
     //note
 
     GET_NOTE: Symbol('getNote'),

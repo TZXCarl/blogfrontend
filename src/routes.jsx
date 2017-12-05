@@ -17,6 +17,7 @@ import Login from "./components/login"
 import Calendar from "./components/calendar"
 import Test from './components/test'
 import Nav from './layouts/nav'
+import Setting from './components/setting';
 
 
 class Routes extends Component {
@@ -39,6 +40,7 @@ class Routes extends Component {
     }
 
     routeLogin = () => {
+        return;
         const {history, route: {location}} = this.context.router
         if (!UserStore.currentUser && location.pathname !== '/login') {
             const redirect = location.pathname + location.search
@@ -63,6 +65,7 @@ class Routes extends Component {
                                   <Route exact path="/" component={Markdown} />
                                   <Route exact path="/calendar" component={Calendar} />
                                   <Route path="/test" component={Test} />
+                                  <Route exact path="/setting" component={Setting}/>
                               </Switch>
                           </Content>
                       </layout>

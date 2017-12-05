@@ -6,6 +6,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     devtool: process.env.APP_ENV === 'production' ? "eval" : 'cheap-module-eval-source-map',
+    // devtool: "source-map",
     devServer: {
         disableHostCheck: true,
         host: "0.0.0.0",
@@ -20,6 +21,7 @@ module.exports = {
             './src/assets/i18ns/en_US.po',
         ],
         app: __dirname + "/src/app.jsx",
+        // app: __dirname + "/src/components/typescript/index.tsx",
         // app: __dirname + "/src/loaders/index.js",
     },
     output: {
@@ -39,6 +41,11 @@ module.exports = {
 
             { test: /zh_CN.po$/, loader: "expose-loader?zh_CN!json-loader!po-loader" },
             { test: /en_US.po$/, loader: "expose-loader?en_US!json-loader!po-loader" },
+
+            // { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
+
+            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+            // { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
 
             {
                 test: /\.jsx$|\.js$/,
@@ -134,13 +141,17 @@ module.exports = {
             __: function(k) { return k; },
         }),
         new webpack.HotModuleReplacementPlugin({}), // TODO disable in production
-        new HelloWorldPlugin({options: true}),
+        // new HelloWorldPlugin({options: true}),
         //new webpack.optimize.UglifyJsPlugin() //只在生产阶段使用，指定sourceMap为true时会使编译速度变慢
     ],
     resolve: {
         modules: ['src', 'node_modules'], //告诉webpack解析时应该搜索的模块
-        extensions: ['.js', '.jsx', '.scss'], //自动解析确定的扩展
-    }
+        extensions: ['.js', '.scss', '.tsx', '.ts', '.jsx'], //自动解析确定的扩展
+    },
+    // externals: {
+    //     "react": "React",
+    //     "react-dom": "ReactDOM"
+    // },
 };
 
 function unModuleJSRule(lib, reg) {

@@ -7,7 +7,7 @@
         "target": "es5",
         "jsx": "react"
     },
-    "include": [
-        "./src/**/*"
+    "files": [
+        "./src/components/typescript/index.tsx"
     ]
 }
