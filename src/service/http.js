@@ -1,6 +1,6 @@
 import Constants from "./constant"
 
-const url = "http://127.0.0.1:9000"
+const url = "http://127.0.0.1:9010"
 let xhr = null;
 
 class Deferred {
@@ -21,7 +21,7 @@ class Api {
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                deferred.resolve(xhr.responseText)
+                deferred.resolve(JSON.parse(xhr.responseText))
             }
         }
         xhr.open(method, url + path, true);  //设置异步请求
@@ -46,7 +46,6 @@ class Api {
     }
 
     fetchUsers = (params) => {
-        console.log(params)
         let path = '/users';
         const keys = Object.keys(params)
         path += keys.map( k => `${k}=${params[k]}`).join('&')

@@ -1,13 +1,27 @@
+
+// 具体配置可以看上面的链接 这里module moduleResolution的配置都会影响到antd的显示
+// allowSyntheticDefaultImports  是antd官网给的配置 必须加上
 {
     "compilerOptions": {
         "outDir": "./dist/",
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "module": "commonjs",
+        "sourceMap": false,
+        "noImplicitAny": false,
+        "module": "es6",
         "target": "es5",
-        "jsx": "react"
+        "jsx": "preserve",
+        "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": false,
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true, //允许使用es2015的impport
+        "strict": true,                         //使用严格模式
+        "lib": [
+            "es5",
+            "dom",
+            "dom.iterable",
+            "es2015"
+        ]
     },
-    "files": [
-        "./src/components/typescript/index.tsx"
+    "include": [
+        "./src/**/*"
     ]
 }

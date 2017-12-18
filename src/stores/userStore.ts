@@ -2,26 +2,36 @@ import {Store} from "flux/utils"
 import AppDispatcher from "../AppDispatcher"
 import Constants from "../service/constant";
 import LocalStorage from 'store';
+import {addEventListener} from "history/DOMUtils";
 
 export const  USER_STORAGE_KEY = 'myuser'
 
+interface userInterface {
+    [key: string]: any;
+    [index: number]: any;
+}
+
 class UserStore extends Store {
+
+    fetching: object = {};
+    _users: object = {};
+    _userIds: Array<string> = [];
+    _currentUser: Object;
 
     constructor() {
         super(AppDispatcher);
-        this.fetching = {};
-        this._users = {};
-        this._userIds = [];
-
-        //todo 添加用户登陆
-        // _currentUser = LocalStorage.get(USER_STORAGE_KEY) || {};
     }
 
-    handleFetchUsers = (users) => {
+    public addChangeListener = (callback: () => void): any => {
+        return super.addListener(callback);
+    }
+
+    handleFetchUsers = (users: Array<any>): void => {
         if (Array.isArray(users)) {
             this._userIds = users.map(user => {
-                this._users[user.id] = user;
-                return user.id;
+                let id = user.id;
+                this._users[id] = user;
+                return id;
             })
         }
     }
@@ -41,7 +51,7 @@ class UserStore extends Store {
                 }
                 break;
         }
-        this.__emitChange()
+        super.__emitChange()
     }
 
     get currentUser() {
@@ -49,6 +59,9 @@ class UserStore extends Store {
     }
 
     get users() {
+        this._userIds.map( id => {
+            return this._users[id]
+        })
         return this._userIds.map( id => this._users[id]) || []
     }
 }
