@@ -1,0 +1,15 @@
+.outlined {
+  text-anchor: middle;
+  font-size: 80px;
+  font-family: sans-serif;
+  fill: mediumBlue;
+  stroke: gold; /* fallback */
+  stroke-width: 3;
+}
+
+@supports (paint-order: stroke) {
+  .outlined {
+    stroke-width: 7;
+    paint-order: stroke;
+  }
+}

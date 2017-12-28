@@ -1,0 +1,13 @@
+#user {
+  :global {
+    .header {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px;
+    }
+    .ant-table-pagination {
+      float: none;
+      text-align: center;
+    }
+  }
+}
