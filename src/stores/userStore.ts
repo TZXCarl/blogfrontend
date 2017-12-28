@@ -1,7 +1,14 @@
 import {Store} from "flux/utils"
+<<<<<<< HEAD
 import AppDispatcher from "../dispatcher/AppDispatcher"
 import Constants from "../service/constant";
 import * as LocalStorage from 'store';
+=======
+import AppDispatcher from "../AppDispatcher"
+import Constants from "../service/constant";
+import LocalStorage from 'store';
+import {addEventListener} from "history/DOMUtils";
+>>>>>>> 56ad3414070df1a40a83b29ade5f3de3de246162
 
 export const  USER_STORAGE_KEY = 'myuser'
 
@@ -10,6 +17,7 @@ interface userInterface {
     [index: number]: any;
 }
 
+<<<<<<< HEAD
 interface ILastAction {
     type: string;
     status: number;
@@ -23,6 +31,14 @@ class UserStore extends Store<any> {
     _userIds: Array<string> = [];
     _currentUser: userInterface;
     _lastAction: ILastAction;
+=======
+class UserStore extends Store {
+
+    fetching: object = {};
+    _users: object = {};
+    _userIds: Array<string> = [];
+    _currentUser: Object;
+>>>>>>> 56ad3414070df1a40a83b29ade5f3de3de246162
 
     constructor() {
         super(AppDispatcher);
@@ -41,12 +57,17 @@ class UserStore extends Store<any> {
             })
         }
     }
+<<<<<<< HEAD
     __onDispatch(payload: any) {
         const {type, fetchStatus} = payload
         this._lastAction = {
             type,
             status: fetchStatus
         }
+=======
+    __onDispatch(payload) {
+        const {type, fetchStatus} = payload
+>>>>>>> 56ad3414070df1a40a83b29ade5f3de3de246162
         switch (type) {
             case Constants.LOGIN:
                 this.fetching[Constants.LOGIN] = fetchStatus === Constants.FETCH_SENDING
@@ -60,6 +81,7 @@ class UserStore extends Store<any> {
                     this.handleFetchUsers(payload.data)
                 }
                 break;
+<<<<<<< HEAD
             case Constants.CREATE_USER:
                 if (fetchStatus === Constants.FETCH_SUCCESS) {
                     // this.handleFetchUsers(payload.data)
@@ -67,6 +89,8 @@ class UserStore extends Store<any> {
                 break;
             case Constants.DELETE_USER:
                 break;
+=======
+>>>>>>> 56ad3414070df1a40a83b29ade5f3de3de246162
         }
         super.__emitChange()
     }
@@ -81,10 +105,13 @@ class UserStore extends Store<any> {
         })
         return this._userIds.map( id => this._users[id]) || []
     }
+<<<<<<< HEAD
 
     get lastAction() {
         return this._lastAction;
     }
+=======
+>>>>>>> 56ad3414070df1a40a83b29ade5f3de3de246162
 }
 
 

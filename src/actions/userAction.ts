@@ -1,13 +1,25 @@
+<<<<<<< HEAD
 import AppDispatcher from "../dispatcher/AppDispatcher"
 import Constants from "../service/constant"
 import Http from "../service/http"
 
 export const login = (data: any) => {
+=======
+import AppDispatcher from "../AppDispatcher"
+import Constants from "../service/constant"
+import Http from "../service/http"
+
+export const login = (data) => {
+>>>>>>> 56ad3414070df1a40a83b29ade5f3de3de246162
     AppDispatcher.dispatch({
         type: Constants.LOGIN,
         fetchStatus: Constants.FETCH_SENDING
     })
+<<<<<<< HEAD
     Http.login(data).then((res: any) => {
+=======
+    Http.login(data).then((res) => {
+>>>>>>> 56ad3414070df1a40a83b29ade5f3de3de246162
         AppDispatcher.dispatch({
             type: Constants.LOGIN,
             fetchStatus: Constants.FETCH_SUCCESS,
@@ -21,14 +33,19 @@ export const getUsers = (data = {}) => {
         type: Constants.FETCH_USERS,
         fetchStatus: Constants.FETCH_SENDING
     })
+<<<<<<< HEAD
     Http.fetchUsers(data).then((res: any) => {
         const data = res.data;
+=======
+    Http.fetchUsers(data).then(({data}) => {
+>>>>>>> 56ad3414070df1a40a83b29ade5f3de3de246162
         AppDispatcher.dispatch({
             type: Constants.FETCH_USERS,
             fetchStatus: Constants.FETCH_SUCCESS,
             data
         })
     })
+<<<<<<< HEAD
 }
 
 export const updateUser = (data = {} ) => {
@@ -74,4 +91,6 @@ export const deleteUser = (id: number) => {
             data
         })
     })
+=======
+>>>>>>> 56ad3414070df1a40a83b29ade5f3de3de246162
 }
